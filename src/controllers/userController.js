@@ -27,6 +27,7 @@ let handleRegister = async (req, res) => {
     fullName: bodyData.fullName,
     gender: bodyData.gender,
     avatar: bodyData.avatar,
+    address: bodyData.address,
     phoneNumber: bodyData.phoneNumber,
     roleId: bodyData.roleId,
     username: bodyData.username,
@@ -45,7 +46,26 @@ let handleRegister = async (req, res) => {
   });
 };
 
+let getUsers = async (req, res) => {
+  let id = req.body.id;
+
+  if (!id) {
+    return res.status(200).json({
+      errCode: 1,
+      message: "Missing required params",
+      users: [],
+    });
+  }
+
+  const users = await userService.getAllUsers(id);
+  return res.status(200).json({
+    errCode: 0,
+    message: "Get users successfully!",
+    users,
+  });
+};
 module.exports = {
   handleLogin,
   handleRegister,
+  getUsers,
 };

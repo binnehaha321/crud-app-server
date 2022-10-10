@@ -5,8 +5,12 @@ let router = express.Router();
 
 let initWebRoutes = (app) => {
 
+  // POST
   router.post("/api/login", useController.handleLogin);
   router.post("/api/register", useController.handleRegister);
+
+  // GET
+  router.get("/api/users", useController.getUsers)
 
   return app.use("/", router);
 };

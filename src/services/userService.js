@@ -65,6 +65,7 @@ const handleUserRegister = async (data) => {
         fullName: data.fullName,
         gender: data.gender === 1 ? true : false,
         avatar: data.avatar,
+        address: data.address,
         phoneNumber: data.phoneNumber,
         roleId: data.roleId,
         username: data.username,
@@ -89,7 +90,33 @@ const hashUserPassword = (password) => {
   });
 };
 
+const getAllUsers = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let users = "";
+      if (userId === "ALL") {
+        users = await db.User.findAll({
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+      } else if (userId && userId !== "ALL") {
+        users = await db.User.findOne({
+          where: { id: userId },
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+      }
+      resolve(users);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin,
   handleUserRegister,
+  getAllUsers,
 };

@@ -21,10 +21,10 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
-      classroomId: {
+      createdBy: {
         type: Sequelize.STRING,
       },
-      teacherId: {
+      classroomId: {
         type: Sequelize.STRING,
       },
       createdAt: {

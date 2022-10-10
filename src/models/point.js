@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       pointByLetter: DataTypes.CHAR,
       pointByNumber: DataTypes.TEXT("tiny"),
       description: DataTypes.TEXT,
+      createdBy: DataTypes.STRING,
       classroomId: DataTypes.STRING,
-      teacherId: DataTypes.STRING,
     },
     {
       sequelize,

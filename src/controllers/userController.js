@@ -14,7 +14,7 @@ let handleLogin = async (req, res) => {
   let userData = await userService.handleUserLogin(email, password);
   return res.status(200).json({
     errCode: userData?.errCode,
-    message: userData?.errMsg,
+    message: userData?.message,
     user: userData?.user || {},
   });
 };
@@ -42,15 +42,15 @@ let handleRegister = async (req, res) => {
   let userData = await userService.handleUserRegister({ ...user });
   return res.status(200).json({
     errCode: userData?.errCode,
-    message: userData?.errMsg,
+    message: userData?.message,
   });
 };
 
 let getUsers = async (req, res) => {
-  let id = req.body.id;
+  let id = req.query.id;
 
   if (!id) {
-    return res.status(200).json({
+    return res.status(500).json({
       errCode: 1,
       message: "Missing required params",
       users: [],
@@ -64,8 +64,63 @@ let getUsers = async (req, res) => {
     users,
   });
 };
+
+let deleteUserById = async (req, res) => {
+  let id = req.query.id;
+
+  if (!id) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "Missing required params",
+      users: [],
+    });
+  } else if (!Number(id)) {
+    return res.status(500).json({
+      errCode: 2,
+      message: "Param is invalid",
+      users: [],
+    });
+  }
+
+  const users = await userService.deleteUser(id);
+  return res.status(200).json({
+    errCode: 0,
+    message: "Delete user successfully!",
+    users,
+  });
+};
+
+let updateUserById = async (req, res) => {
+  // GET USER BY ID
+  let id = req.query.id;
+  if (!id) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "Missing required params",
+      users: [],
+    });
+  } else if (!Number(id)) {
+    return res.status(500).json({
+      errCode: 2,
+      message: "Param is invalid",
+      users: [],
+    });
+  }
+
+  // GET BODY DATA
+  const bodyData = await req.body;
+  const userData = await userService.updateUser(id, bodyData);
+  return res.status(200).json({
+    errCode: 0,
+    message: "Update user successfully!",
+    users: userData,
+  });
+};
+
 module.exports = {
   handleLogin,
   handleRegister,
   getUsers,
+  deleteUserById,
+  updateUserById,
 };

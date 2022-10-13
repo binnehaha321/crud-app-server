@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Roles.init(
     {
-      roleId: DataTypes.INTEGER,
+      roleId: DataTypes.STRING,
       roleName: DataTypes.STRING,
       description: DataTypes.STRING,
     },

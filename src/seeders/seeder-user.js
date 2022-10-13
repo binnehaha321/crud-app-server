@@ -12,7 +12,7 @@ module.exports = {
         avatar: "",
         address: "65 duong so 5",
         phoneNumber: "0902340111",
-        roleId: 0,
+        roleId: ["admin"],
         username: "khanhtq",
         password: "12345678",
         createdAt: new Date(),

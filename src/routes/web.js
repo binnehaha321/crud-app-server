@@ -4,15 +4,20 @@ import useController from "../controllers/userController";
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-
   // POST
-  router.post("/api/login", useController.handleLogin);
-  router.post("/api/register", useController.handleRegister);
+  router.post("/login", useController.handleLogin);
+  router.post("/register", useController.handleRegister);
 
   // GET
-  router.get("/api/users", useController.getUsers)
+  router.get("/users", useController.getUsers);
 
-  return app.use("/", router);
+  // DELETE
+  router.delete("/users", useController.deleteUserById);
+
+  // PUT
+  router.put("/users", useController.updateUserById);
+
+  return app.use("/api", router);
 };
 
 module.exports = initWebRoutes;

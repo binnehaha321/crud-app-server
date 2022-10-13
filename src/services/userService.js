@@ -15,21 +15,21 @@ let handleUserLogin = (email, password) => {
           let check = bcrypt.compareSync(password, user.password);
           if (check) {
             userData.errCode = 0;
-            userData.errMsg = "You're logged in!";
+            userData.message = "You're logged in!";
             delete user.id;
             delete user.password;
             userData.user = user;
           } else {
             userData.errCode = 3;
-            userData.errMsg = "Wrong password";
+            userData.message = "Wrong password";
           }
         } else {
           userData.errCode = 2;
-          userData.errMsg = "User not found";
+          userData.message = "User not found";
         }
       } else {
         userData.errCode = 1;
-        userData.errMsg = "Your email is invalid";
+        userData.message = "Your email is invalid";
       }
       resolve(userData);
     } catch (error) {
@@ -63,7 +63,7 @@ const handleUserRegister = async (data) => {
         userId: data.userId,
         email: data.email,
         fullName: data.fullName,
-        gender: data.gender === 1 ? true : false,
+        gender: data.gender,
         avatar: data.avatar,
         address: data.address,
         phoneNumber: data.phoneNumber,
@@ -71,7 +71,10 @@ const handleUserRegister = async (data) => {
         username: data.username,
         password: hashPassword,
       });
-      resolve("Created user successfully!");
+      resolve({
+        errCode: 0,
+        message: "Created user successfully!",
+      });
     } catch (error) {
       reject(error);
     }
@@ -115,8 +118,34 @@ const getAllUsers = (userId) => {
   });
 };
 
+const deleteUser = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.User.destroy({ where: { id } });
+      let userList = await getAllUsers("ALL");
+      resolve(userList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const updateUser = (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.User.update(data, { where: { id } });
+      let userList = await getAllUsers("ALL");
+      resolve(userList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin,
   handleUserRegister,
   getAllUsers,
+  deleteUser,
+  updateUser,
 };

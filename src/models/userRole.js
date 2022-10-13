@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserRole.init(
     {
-      studentId: DataTypes.STRING,
-      pointId: DataTypes.STRING,
+      userId: DataTypes.STRING,
+      roleId: DataTypes.STRING,
     },
     {
       sequelize,

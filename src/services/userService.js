@@ -118,10 +118,10 @@ const getAllUsers = (userId) => {
   });
 };
 
-const deleteUser = (id) => {
+const deleteUser = (studentId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.User.destroy({ where: { id } });
+      await db.User.destroy({ where: { id: studentId } });
       let userList = await getAllUsers("ALL");
       resolve(userList);
     } catch (error) {
@@ -130,10 +130,10 @@ const deleteUser = (id) => {
   });
 };
 
-const updateUser = (id, data) => {
+const updateUser = (userId, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.User.update(data, { where: { id } });
+      await db.User.update(data, { where: { id: userId } });
       let userList = await getAllUsers("ALL");
       resolve(userList);
     } catch (error) {

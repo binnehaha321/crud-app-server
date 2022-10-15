@@ -44,7 +44,33 @@ const getAllStudents = async (studentId) => {
   });
 };
 
+const deleteStudent = async (studentId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Students.destroy({ where: { id: studentId } });
+      let studentList = await getAllStudents("ALL");
+      resolve(studentList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const updateUser = (studentId, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Students.update(data, { where: { id: studentId } });
+      let studentList = await getAllStudents("ALL");
+      resolve(studentList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleAddNewStudent,
   getAllStudents,
+  deleteStudent,
+  updateUser,
 };

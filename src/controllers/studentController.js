@@ -47,7 +47,60 @@ let getStudents = async (req, res) => {
     });
 };
 
+let deleteStudentById = async (req, res) => {
+  let id = req.query.id;
+
+  if (!id) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "Missing required params",
+      students: [],
+    });
+  } else if (!Number(id)) {
+    return res.status(500).json({
+      errCode: 2,
+      message: "Param is invalid",
+      students: [],
+    });
+  }
+
+  const students = await studentService.deleteStudent(id);
+  return res.status(200).json({
+    errCode: 0,
+    message: "Delete student successfully!",
+    students,
+  });
+};
+
+let updateStudentById = async (req, res) => {
+  // GET STUDENT BY ID
+  let studentId = req.query.id;
+  if (!studentId) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "Missing required params",
+      students: [],
+    });
+  } else if (!Number(studentId)) {
+    return res.status(500).json({
+      errCode: 2,
+      message: "Param is invalid",
+      students: [],
+    });
+  }
+
+  // GET BODY DATA
+  const bodyData = await req.body;
+  const studentData = await studentService.updateUser(studentId, bodyData);
+  return res.status(200).json({
+    errCode: 0,
+    message: "Update student successfully!",
+    students: studentData,
+  });
+};
 module.exports = {
   handleAddStudent,
   getStudents,
+  deleteStudentById,
+  updateStudentById,
 };

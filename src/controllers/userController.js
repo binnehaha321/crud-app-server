@@ -92,14 +92,14 @@ let deleteUserById = async (req, res) => {
 
 let updateUserById = async (req, res) => {
   // GET USER BY ID
-  let id = req.query.id;
-  if (!id) {
+  let userId = req.query.id;
+  if (!userId) {
     return res.status(500).json({
       errCode: 1,
       message: "Missing required params",
       users: [],
     });
-  } else if (!Number(id)) {
+  } else if (!Number(userId)) {
     return res.status(500).json({
       errCode: 2,
       message: "Param is invalid",
@@ -109,7 +109,7 @@ let updateUserById = async (req, res) => {
 
   // GET BODY DATA
   const bodyData = await req.body;
-  const userData = await userService.updateUser(id, bodyData);
+  const userData = await userService.updateUser(userId, bodyData);
   return res.status(200).json({
     errCode: 0,
     message: "Update user successfully!",

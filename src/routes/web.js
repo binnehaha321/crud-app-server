@@ -16,9 +16,11 @@ let initWebRoutes = (app) => {
 
   // DELETE
   router.delete("/users", userController.deleteUserById);
+  router.delete("/students", studentController.deleteStudentById);
 
   // PUT
   router.put("/users", userController.updateUserById);
+  router.put("/students", studentController.updateStudentById);
 
   return app.use("/api", router);
 };

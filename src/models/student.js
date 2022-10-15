@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       phoneNumber: DataTypes.STRING,
       address: DataTypes.STRING,
       enrollNumber: DataTypes.INTEGER,
-      dateOfAdmission: DataTypes.STRING,
+      dateOfAdmission: DataTypes.DATE,
       majorId: DataTypes.STRING,
       classId: DataTypes.STRING,
     },

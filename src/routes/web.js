@@ -1,21 +1,24 @@
 import express from "express";
-import useController from "../controllers/userController";
+import userController from "../controllers/userController";
+import studentController from "../controllers/studentController";
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
   // POST
-  router.post("/login", useController.handleLogin);
-  router.post("/register", useController.handleRegister);
+  router.post("/login", userController.handleLogin);
+  router.post("/register", userController.handleRegister);
+  router.post("/students/add", studentController.handleAddStudent);
 
   // GET
-  router.get("/users", useController.getUsers);
+  router.get("/users", userController.getUsers);
+  router.get("/students", studentController.getStudents);
 
   // DELETE
-  router.delete("/users", useController.deleteUserById);
+  router.delete("/users", userController.deleteUserById);
 
   // PUT
-  router.put("/users", useController.updateUserById);
+  router.put("/users", userController.updateUserById);
 
   return app.use("/api", router);
 };

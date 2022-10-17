@@ -2,6 +2,7 @@ import express from "express";
 import userController from "../controllers/userController";
 import studentController from "../controllers/studentController";
 import majorController from "../controllers/majorController";
+import paymentController from "../controllers/paymentController";
 
 let router = express.Router();
 
@@ -16,6 +17,7 @@ let initWebRoutes = (app) => {
   router.get("/users", userController.getUsers);
   router.get("/students", studentController.getStudents);
   router.get("/majors", majorController.getMajors);
+  router.get("/payments", paymentController.getPayments);
 
   // DELETE
   router.delete("/users", userController.deleteUserById);

@@ -39,6 +39,7 @@ let handleRegister = async (req, res) => {
       message: "Missing inputs",
     });
   }
+
   let userData = await userService.handleUserRegister({ ...user });
   return res.status(200).json({
     errCode: userData?.errCode,

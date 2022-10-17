@@ -1,5 +1,6 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
+import { Op } from "sequelize";
 
 let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -58,17 +59,17 @@ let checkUserEmail = (userEmail) => {
 const handleUserRegister = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let hashPassword = await hashUserPassword(data.password);
+      let hashPassword = await hashUserPassword(data?.password);
       await db.User.create({
-        userId: data.userId,
-        email: data.email,
-        fullName: data.fullName,
-        gender: data.gender,
-        avatar: data.avatar,
-        address: data.address,
-        phoneNumber: data.phoneNumber,
-        roleId: data.roleId,
-        username: data.username,
+        userId: data?.userId,
+        email: data?.email,
+        fullName: data?.fullName,
+        gender: data?.gender,
+        avatar: data?.avatar,
+        address: data?.address,
+        phoneNumber: data?.phoneNumber,
+        roleId: data?.roleId,
+        username: data?.username,
         password: hashPassword,
       });
       resolve({

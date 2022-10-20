@@ -17,7 +17,6 @@ const handleAddNewStudent = async (data) => {
         classId: data.classId,
       });
       resolve({
-        errCode: 0,
         message: "Created student successfully!",
       });
     } catch (error) {
@@ -30,11 +29,12 @@ const getAllStudents = async (studentId) => {
   return new Promise(async (resolve, reject) => {
     try {
       let students = "";
-      if (studentId === "ALL") {
+      if (!studentId) {
         students = await db.Students.findAll();
-      } else if (studentId && studentId !== "ALL") {
+      } else {
         students = await db.Students.findOne({
-          where: { id: studentId },
+          where: { studentId },
+          raw: true,
         });
       }
       resolve(students);
@@ -47,8 +47,8 @@ const getAllStudents = async (studentId) => {
 const deleteStudent = async (studentId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.Students.destroy({ where: { id: studentId } });
-      let studentList = await getAllStudents("ALL");
+      await db.Students.destroy({ where: { studentId } });
+      let studentList = await getAllStudents();
       resolve(studentList);
     } catch (error) {
       reject(error);
@@ -59,8 +59,8 @@ const deleteStudent = async (studentId) => {
 const updateUser = (studentId, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.Students.update(data, { where: { id: studentId } });
-      let studentList = await getAllStudents("ALL");
+      await db.Students.update(data, { where: { studentId } });
+      let studentList = await getAllStudents();
       resolve(studentList);
     } catch (error) {
       reject(error);

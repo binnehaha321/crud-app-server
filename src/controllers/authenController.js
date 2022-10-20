@@ -1,4 +1,4 @@
-import userService from "../services/userService";
+import authenService from "../services/authenService";
 
 let handleLogin = async (req, res) => {
   let email = await req.body.email;
@@ -6,14 +6,12 @@ let handleLogin = async (req, res) => {
 
   if (!email || !password) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing inputs",
     });
   }
 
-  let userData = await userService.handleUserLogin(email, password);
-  return res.status(200).json({
-    errCode: userData?.errCode,
+  let userData = await authenService.handleUserLogin(email, password);
+  return res.status(userData?.errCode).json({
     message: userData?.message,
     user: userData?.user || {},
   });
@@ -40,7 +38,7 @@ let handleRegister = async (req, res) => {
     });
   }
 
-  let userData = await userService.handleUserRegister({ ...user });
+  let userData = await authenService.handleUserRegister({ ...user });
   return res.status(200).json({
     errCode: userData?.errCode,
     message: userData?.message,
@@ -58,7 +56,7 @@ let getUsers = async (req, res) => {
     });
   }
 
-  const users = await userService.getAllUsers(id);
+  const users = await authenService.getAllUsers(id);
   return res.status(200).json({
     errCode: 0,
     message: "Get users successfully!",
@@ -83,7 +81,7 @@ let deleteUserById = async (req, res) => {
     });
   }
 
-  const users = await userService.deleteUser(id);
+  const users = await authenService.deleteUser(id);
   return res.status(200).json({
     errCode: 0,
     message: "Delete user successfully!",
@@ -110,7 +108,7 @@ let updateUserById = async (req, res) => {
 
   // GET BODY DATA
   const bodyData = await req.body;
-  const userData = await userService.updateUser(userId, bodyData);
+  const userData = await authenService.updateUser(userId, bodyData);
   return res.status(200).json({
     errCode: 0,
     message: "Update user successfully!",

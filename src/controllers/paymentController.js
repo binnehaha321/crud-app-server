@@ -1,23 +1,25 @@
 import paymentService from "../services/paymentService";
 
-let handleAddMajor = async (req, res) => {
+let handleAddPayment = async (req, res) => {
   const bodyData = await req.body;
-  let major = {
-    majorId: bodyData.majorId,
-    majorName_EN: bodyData.majorName_EN,
-    majorName_VI: bodyData.majorName_VI,
-    description: bodyData.description,
+  let payment = {
+    paymentId: bodyData.paymentId,
+    paymentSchedule: bodyData.paymentSchedule,
+    billNumber: bodyData.billNumber,
+    amountPaid: bodyData.amountPaid,
+    paymentDate: bodyData.paymentDate,
+    studentId: bodyData.studentId,
   };
-  if (!major.majorId) {
+  if (!payment.paymentId) {
     return res.status(500).json({
       errCode: 1,
       message: "Missing inputs",
     });
   }
-  let majorData = await paymentService.handleAddNewMajor({ ...major });
+  let paymentData = await paymentService.handleAddNewPayment({ ...payment });
   return res.status(200).json({
-    errCode: majorData?.errCode,
-    message: majorData?.message,
+    errCode: paymentData?.errCode,
+    message: paymentData?.message,
   });
 };
 
@@ -93,7 +95,7 @@ let updateMajorById = async (req, res) => {
 };
 
 module.exports = {
-  handleAddMajor,
+  handleAddPayment,
   getPayments,
   deleteMajorById,
   updateMajorById,

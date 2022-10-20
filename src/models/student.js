@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       enrollNumber: DataTypes.INTEGER,
       dateOfAdmission: DataTypes.DATE,
+      balanceAmount: DataTypes.INTEGER,
       majorId: DataTypes.STRING,
       classId: DataTypes.STRING,
     },
@@ -30,5 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Students",
     }
   );
+  Students.removeAttribute("id");
   return Students;
 };

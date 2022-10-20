@@ -1,6 +1,5 @@
 import db from "../models/index";
 import bcrypt from "bcryptjs";
-import { Op } from "sequelize";
 
 let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -9,27 +8,27 @@ let handleUserLogin = (email, password) => {
       let isExist = await checkUserEmail(email);
       if (isExist) {
         let user = await db.User.findOne({
-          where: { email: email },
+          where: { email },
           raw: true,
         });
         if (user) {
           let check = bcrypt.compareSync(password, user.password);
           if (check) {
-            userData.errCode = 0;
+            userData.errCode = 200;
             userData.message = "You're logged in!";
             delete user.id;
             delete user.password;
             userData.user = user;
           } else {
-            userData.errCode = 3;
+            userData.errCode = 401;
             userData.message = "Wrong password";
           }
         } else {
-          userData.errCode = 2;
+          userData.errCode = 401;
           userData.message = "User not found";
         }
       } else {
-        userData.errCode = 1;
+        userData.errCode = 401;
         userData.message = "Your email is invalid";
       }
       resolve(userData);

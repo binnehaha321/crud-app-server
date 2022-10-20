@@ -15,9 +15,8 @@ let handleAddStudent = async (req, res) => {
     majorId: bodyData.majorId,
     classId: bodyData.classId,
   };
-  if (!student.studentId) {
+  if (!bodyData.studentId) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing inputs",
     });
   }
@@ -29,44 +28,27 @@ let handleAddStudent = async (req, res) => {
 };
 
 let getStudents = async (req, res) => {
-    let id = req.query.id;
+  let studentId = req.query.studentId;
 
-    if (!id) {
-      return res.status(500).json({
-        errCode: 1,
-        message: "Missing required params",
-        students: [],
-      });
-    }
-
-    const students = await studentService.getAllStudents(id);
-    return res.status(200).json({
-      errCode: 0,
-      message: "Get students successfully!",
-      students,
-    });
+  const students = await studentService.getAllStudents(studentId);
+  return res.status(200).json({
+    message: "Get students successfully!",
+    students,
+  });
 };
 
 let deleteStudentById = async (req, res) => {
-  let id = req.query.id;
+  let studentId = req.query.studentId;
 
-  if (!id) {
+  if (!studentId) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing required params",
-      students: [],
-    });
-  } else if (!Number(id)) {
-    return res.status(500).json({
-      errCode: 2,
-      message: "Param is invalid",
       students: [],
     });
   }
 
-  const students = await studentService.deleteStudent(id);
+  const students = await studentService.deleteStudent(studentId);
   return res.status(200).json({
-    errCode: 0,
     message: "Delete student successfully!",
     students,
   });
@@ -74,17 +56,10 @@ let deleteStudentById = async (req, res) => {
 
 let updateStudentById = async (req, res) => {
   // GET STUDENT BY ID
-  let studentId = req.query.id;
+  let studentId = req.query.studentId;
   if (!studentId) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing required params",
-      students: [],
-    });
-  } else if (!Number(studentId)) {
-    return res.status(500).json({
-      errCode: 2,
-      message: "Param is invalid",
       students: [],
     });
   }
@@ -93,7 +68,6 @@ let updateStudentById = async (req, res) => {
   const bodyData = await req.body;
   const studentData = await studentService.updateUser(studentId, bodyData);
   return res.status(200).json({
-    errCode: 0,
     message: "Update student successfully!",
     students: studentData,
   });

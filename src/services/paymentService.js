@@ -1,17 +1,19 @@
 import db from "../models/index";
 
-const handleAddNewMajor = async (data) => {
+const handleAddNewPayment = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.Major.create({
+      await db.Payment.create({
         paymentId: data.paymentId,
-        majorName_EN: data.majorName_EN,
-        majorName_VI: data.majorName_VI,
-        description: data.description,
+        paymentSchedule: data.paymentSchedule,
+        billNumber: data.billNumber,
+        amountPaid: data.amountPaid,
+        paymentDate: data.paymentDate,
+        studentId: data.studentId,
       });
       resolve({
         errCode: 0,
-        message: "Created major successfully!",
+        message: "Created payment successfully!",
       });
     } catch (error) {
       reject(error);
@@ -62,7 +64,7 @@ const updateMajor = (paymentId, data) => {
 };
 
 module.exports = {
-  handleAddNewMajor,
+  handleAddNewPayment,
   getAllPayments,
   deleteMajor,
   updateMajor,

@@ -9,9 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      pointId: {
-        type: Sequelize.STRING,
-      },
       pointByLetter: {
         type: Sequelize.CHAR,
       },
@@ -22,9 +19,6 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       createdBy: {
-        type: Sequelize.STRING,
-      },
-      classroomId: {
         type: Sequelize.STRING,
       },
       createdAt: {

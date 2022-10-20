@@ -10,7 +10,6 @@ const handleAddNewMajor = async (data) => {
         description: data.description,
       });
       resolve({
-        errCode: 0,
         message: "Created major successfully!",
       });
     } catch (error) {
@@ -23,11 +22,12 @@ const getAllMajors = async (majorId) => {
   return new Promise(async (resolve, reject) => {
     try {
       let majors = "";
-      if (majorId === "ALL") {
+      if (!majorId) {
         majors = await db.Major.findAll();
-      } else if (majorId && majorId !== "ALL") {
+      } else {
         majors = await db.Major.findOne({
-          where: { id: majorId },
+          where: { majorId },
+          raw: true,
         });
       }
       resolve(majors);
@@ -40,8 +40,8 @@ const getAllMajors = async (majorId) => {
 const deleteMajor = async (majorId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.Major.destroy({ where: { id: majorId } });
-      let majorList = await getAllMajors("ALL");
+      await db.Major.destroy({ where: { majorId } });
+      let majorList = await getAllMajors();
       resolve(majorList);
     } catch (error) {
       reject(error);
@@ -52,8 +52,8 @@ const deleteMajor = async (majorId) => {
 const updateMajor = (majorId, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.Major.update(data, { where: { id: majorId } });
-      let majorList = await getAllMajors("ALL");
+      await db.Major.update(data, { where: { majorId } });
+      let majorList = await getAllMajors();
       resolve(majorList);
     } catch (error) {
       reject(error);

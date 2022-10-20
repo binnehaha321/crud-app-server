@@ -3,13 +3,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("majors", {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
       majorId: {
+        allowNull: false,
+        autoIncrement: false,
+        primaryKey: true,
         type: Sequelize.STRING,
       },
       majorName_EN: {

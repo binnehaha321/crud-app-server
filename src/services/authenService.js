@@ -38,11 +38,11 @@ let handleUserLogin = (email, password) => {
   });
 };
 
-let checkUserEmail = (userEmail) => {
+let checkUserEmail = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
       let user = await db.User.findOne({
-        where: { email: userEmail },
+        where: { email },
       });
       if (user) {
         resolve(true);
@@ -72,7 +72,6 @@ const handleUserRegister = async (data) => {
         password: hashPassword,
       });
       resolve({
-        errCode: 0,
         message: "Created user successfully!",
       });
     } catch (error) {
@@ -97,15 +96,15 @@ const getAllUsers = (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
       let users = "";
-      if (userId === "ALL") {
+      if (!userId) {
         users = await db.User.findAll({
           attributes: {
             exclude: ["password"],
           },
         });
-      } else if (userId && userId !== "ALL") {
+      } else {
         users = await db.User.findOne({
-          where: { id: userId },
+          where: { userId },
           attributes: {
             exclude: ["password"],
           },
@@ -118,11 +117,11 @@ const getAllUsers = (userId) => {
   });
 };
 
-const deleteUser = (studentId) => {
+const deleteUser = (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.User.destroy({ where: { id: studentId } });
-      let userList = await getAllUsers("ALL");
+      await db.User.destroy({ where: { userId } });
+      let userList = await getAllUsers();
       resolve(userList);
     } catch (error) {
       reject(error);
@@ -133,8 +132,8 @@ const deleteUser = (studentId) => {
 const updateUser = (userId, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.User.update(data, { where: { id: userId } });
-      let userList = await getAllUsers("ALL");
+      await db.User.update(data, { where: { userId } });
+      let userList = await getAllUsers();
       resolve(userList);
     } catch (error) {
       reject(error);

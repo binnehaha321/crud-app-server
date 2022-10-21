@@ -33,7 +33,6 @@ let handleRegister = async (req, res) => {
   };
   if (!user.email || !user.password) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing inputs",
     });
   }
@@ -46,44 +45,27 @@ let handleRegister = async (req, res) => {
 };
 
 let getUsers = async (req, res) => {
-  let id = req.query.id;
+  let userId = req.query.userId;
 
-  if (!id) {
-    return res.status(500).json({
-      errCode: 1,
-      message: "Missing required params",
-      users: [],
-    });
-  }
-
-  const users = await authenService.getAllUsers(id);
+  const users = await authenService.getAllUsers(userId);
   return res.status(200).json({
-    errCode: 0,
     message: "Get users successfully!",
     users,
   });
 };
 
 let deleteUserById = async (req, res) => {
-  let id = req.query.id;
+  let userId = req.query.userId;
 
-  if (!id) {
+  if (!userId) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing required params",
-      users: [],
-    });
-  } else if (!Number(id)) {
-    return res.status(500).json({
-      errCode: 2,
-      message: "Param is invalid",
       users: [],
     });
   }
 
-  const users = await authenService.deleteUser(id);
+  const users = await authenService.deleteUser(userId);
   return res.status(200).json({
-    errCode: 0,
     message: "Delete user successfully!",
     users,
   });
@@ -91,17 +73,10 @@ let deleteUserById = async (req, res) => {
 
 let updateUserById = async (req, res) => {
   // GET USER BY ID
-  let userId = req.query.id;
+  let userId = req.query.userId;
   if (!userId) {
     return res.status(500).json({
-      errCode: 1,
       message: "Missing required params",
-      users: [],
-    });
-  } else if (!Number(userId)) {
-    return res.status(500).json({
-      errCode: 2,
-      message: "Param is invalid",
       users: [],
     });
   }
@@ -110,7 +85,6 @@ let updateUserById = async (req, res) => {
   const bodyData = await req.body;
   const userData = await authenService.updateUser(userId, bodyData);
   return res.status(200).json({
-    errCode: 0,
     message: "Update user successfully!",
     users: userData,
   });
